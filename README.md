@@ -1,10 +1,8 @@
-### Hi there 👋
-
-Hi ![](https://user-images.githubusercontent.com/18350557/176309783-0785949b-9127-417c-8b55-ab5a4333674e.gif)My name is Akharapon Junsong
-=========================================================================================================================================
-
-Hello World !!
+### Hello World !! 👋
 --------------
+
+Hi My name is Akharapon Junsong
+=========================================================================================================================================
 
 I'm a junior programmer and studying new technologies. Now I am working on FrontEnd and BackEnd using tools as asp.net and C# and I'm interested about data science, Game 2D.
 
