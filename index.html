@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akkharapon Jansong — Junior Programmer</title>
+<meta name="description" content="Akkharapon Jansong · Junior Programmer · C# .NET WebForm, PL/SQL, Oracle, Shell">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10151c;
+    --panel:#171f28;
+    --panel-border:#2a3542;
+    --amber:#e3a33f;
+    --teal:#5fb8ab;
+    --text:#e7e4da;
+    --text-dim:#8b94a1;
+    --red-soft:#d9705a;
+    --mono:'JetBrains Mono', 'IBM Plex Sans Thai', monospace;
+    --sans:'IBM Plex Sans', 'IBM Plex Sans Thai', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(227,163,63,0.06), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(95,184,171,0.06), transparent 40%);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--teal);}
+  ::selection{background:var(--amber);color:#10151c;}
+
+  /* Nav */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(16,21,28,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--panel-border);
+  }
+  .nav-inner{
+    max-width:880px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{
+    font-family:var(--mono);font-weight:600;font-size:15px;color:var(--text);
+    display:flex;align-items:center;gap:8px;
+  }
+  .logo .cursor{
+    display:inline-block;width:8px;height:16px;background:var(--amber);
+    animation:blink 1.1s steps(2) infinite;
+  }
+  nav ul{list-style:none;display:flex;gap:24px;margin:0;padding:0;}
+  nav a{
+    font-family:var(--mono);font-size:13px;color:var(--text-dim);text-decoration:none;
+    letter-spacing:0.02em;
+  }
+  nav a:hover{color:var(--amber);}
+  @media (max-width:560px){ nav ul{gap:14px;} nav a{font-size:11.5px;} }
+
+  main{max-width:880px;margin:0 auto;padding:48px 24px 96px;}
+
+  /* window chrome shared by all panels */
+  .window{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:10px;
+    margin-bottom:40px;
+    overflow:hidden;
+    box-shadow:0 20px 40px -24px rgba(0,0,0,0.6);
+  }
+  .window-bar{
+    display:flex;align-items:center;gap:8px;
+    padding:10px 14px;
+    background:#131a22;
+    border-bottom:1px solid var(--panel-border);
+  }
+  .dot{width:9px;height:9px;border-radius:50%;}
+  .dot.r{background:#d9705a;} .dot.y{background:#e3a33f;} .dot.g{background:#5fb8ab;}
+  .filename{
+    font-family:var(--mono);font-size:12px;color:var(--text-dim);
+    margin-left:6px;
+  }
+  .window-body{padding:28px;}
+  @media (max-width:560px){ .window-body{padding:20px 18px;} }
+
+  /* Hero */
+  .hero-window .window-body{padding:0;}
+  .terminal{
+    font-family:var(--mono);font-size:14px;padding:24px;
+    min-height:280px;
+  }
+  .terminal .line{margin-bottom:6px;white-space:pre-wrap;word-break:break-word;}
+  .prompt{color:var(--teal);}
+  .query{color:var(--text);}
+  .out-label{color:var(--text-dim);}
+  .out-value{color:var(--amber);}
+  .terminal-cursor{
+    display:inline-block;width:8px;height:14px;background:var(--amber);
+    vertical-align:middle;animation:blink 1s steps(2) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .result-table{margin-top:14px;border-top:1px dashed var(--panel-border);padding-top:14px;display:none;}
+  .result-table.show{display:block;}
+  .result-row{display:flex;gap:16px;padding:4px 0;font-size:13.5px;}
+  .result-row .k{color:var(--text-dim);min-width:120px;}
+  .result-row .v{color:var(--text);}
+
+  h1,h2,h3{font-family:var(--mono);font-weight:600;letter-spacing:-0.01em;margin:0;}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;color:var(--amber);
+    text-transform:uppercase;letter-spacing:0.12em;margin:0 0 10px;
+  }
+  .lede{color:var(--text-dim);font-size:15px;max-width:60ch;margin:10px 0 0;}
+
+  /* Skills */
+  .skill-group{margin-bottom:22px;}
+  .skill-group:last-child{margin-bottom:0;}
+  .skill-group h3{font-size:13px;color:var(--teal);margin-bottom:10px;font-weight:600;}
+  .skill-line{
+    font-family:var(--mono);font-size:14px;margin:4px 0;color:var(--text);
+    display:flex;gap:10px;
+  }
+  .skill-line .sym{color:var(--text-dim);}
+  .skill-line .comment{color:var(--text-dim);font-style:italic;}
+
+  /* Projects */
+  .proj-list{border-top:1px solid var(--panel-border);}
+  .proj-item{
+    border-bottom:1px solid var(--panel-border);
+    padding:16px 0;
+  }
+  .proj-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    cursor:pointer;
+  }
+  .proj-name{font-family:var(--mono);font-size:14.5px;color:var(--text);}
+  .proj-name .perm{color:var(--text-dim);margin-right:10px;font-size:13px;}
+  .proj-tag{font-family:var(--mono);font-size:11px;color:var(--amber);border:1px solid var(--panel-border);padding:2px 8px;border-radius:4px;white-space:nowrap;}
+  .proj-desc{
+    color:var(--text-dim);font-size:14px;margin-top:10px;max-width:64ch;
+    padding-left:24px;border-left:2px solid var(--panel-border);
+  }
+
+  /* Contact */
+  .conf-line{font-family:var(--mono);font-size:14.5px;margin:6px 0;}
+  .conf-key{color:var(--teal);} .conf-eq{color:var(--text-dim);} .conf-val{color:var(--text);}
+  .contact-links{display:flex;gap:14px;margin-top:20px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono);font-size:13px;
+    padding:10px 18px;border-radius:6px;text-decoration:none;
+    border:1px solid var(--panel-border);color:var(--text);
+    transition:border-color .15s, color .15s;
+  }
+  .btn:hover{border-color:var(--amber);color:var(--amber);}
+  .btn.primary{background:var(--amber);color:#10151c;border-color:var(--amber);font-weight:600;}
+  .btn.primary:hover{color:#10151c;opacity:.9;}
+
+  footer{
+    text-align:center;color:var(--text-dim);font-family:var(--mono);
+    font-size:12px;padding:20px 24px 40px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .terminal-cursor, .logo .cursor{animation:none;opacity:1;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="logo">AJ<span class="cursor"></span></div>
+    <nav>
+      <ul>
+        <li><a href="#profile">profile</a></li>
+        <li><a href="#skills">skills</a></li>
+        <li><a href="#projects">projects</a></li>
+        <li><a href="#contact">contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="window hero-window" id="profile">
+    <div class="window-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="filename">profile.sql — oracle session</span>
+    </div>
+    <div class="terminal" id="terminal">
+      <!-- populated by JS typing effect, with no-JS fallback below -->
+      <noscript>
+        <div class="line"><span class="prompt">oracle&gt;</span> <span class="query">SELECT name, position FROM profile WHERE id = 1;</span></div>
+        <div class="result-table show">
+          <div class="result-row"><span class="k">NAME</span><span class="v">Akkharapon Jansong</span></div>
+          <div class="result-row"><span class="k">POSITION</span><span class="v">Junior Programmer</span></div>
+          <div class="result-row"><span class="k">EDUCATION</span><span class="v">B.Sc. Computer Science, Ubon Ratchathani University</span></div>
+          <div class="result-row"><span class="k">GPA</span><span class="v">2.49</span></div>
+        </div>
+      </noscript>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="window" id="skills">
+    <div class="window-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="filename">skills.sh</span>
+    </div>
+    <div class="window-body">
+      <p class="eyebrow">$ cat skills.sh</p>
+
+      <div class="skill-group">
+        <h3>// application layer</h3>
+        <div class="skill-line"><span class="sym">echo</span> "C# .NET WebForm" <span class="comment"># web app development</span></div>
+      </div>
+
+      <div class="skill-group">
+        <h3>// data layer</h3>
+        <div class="skill-line"><span class="sym">echo</span> "Oracle Database"</div>
+        <div class="skill-line"><span class="sym">echo</span> "PL/SQL"</div>
+        <div class="skill-line"><span class="sym">echo</span> "Stored Procedures"</div>
+      </div>
+
+      <div class="skill-group">
+        <h3>// systems &amp; tooling</h3>
+        <div class="skill-line"><span class="sym">echo</span> "Shell Scripting"</div>
+        <div class="skill-line"><span class="sym">echo</span> "Git / GitHub" <span class="comment"># version control</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="window" id="projects">
+    <div class="window-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="filename">~/projects</span>
+    </div>
+    <div class="window-body">
+      <p class="eyebrow">$ ls -la ~/projects</p>
+
+      <div class="proj-list">
+        <div class="proj-item">
+          <div class="proj-head" onclick="this.nextElementSibling.classList.toggle('show-desc')">
+            <span class="proj-name"><span class="perm">-rwxr-xr-x</span>python-bmi/</span>
+            <span class="proj-tag">Python</span>
+          </div>
+          <p class="proj-desc show-desc">
+            Command-line tool that calculates Body Mass Index (BMI) from height and weight input,
+            returning the BMI value along with its weight category.
+          </p>
+        </div>
+
+        <div class="proj-item">
+          <div class="proj-head" onclick="this.nextElementSibling.classList.toggle('show-desc')">
+            <span class="proj-name"><span class="perm">-rwxr-xr-x</span>clock-overlay/</span>
+            <span class="proj-tag">Utility</span>
+          </div>
+          <p class="proj-desc show-desc">
+            Lightweight always-on-top clock overlay that stays visible above other windows,
+            so the current time is on screen at a glance without switching tasks.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="window" id="contact">
+    <div class="window-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="filename">contact.conf</span>
+    </div>
+    <div class="window-body">
+      <p class="eyebrow">$ cat contact.conf</p>
+      <div class="conf-line"><span class="conf-key">github</span> <span class="conf-eq">=</span> <span class="conf-val">github.com/your-username</span></div>
+      <div class="conf-line"><span class="conf-key">phone</span> <span class="conf-eq">=</span> <span class="conf-val">066-666-6666</span></div>
+
+      <div class="contact-links">
+        <a class="btn primary" href="https://github.com/your-username" target="_blank" rel="noopener">View GitHub</a>
+        <a class="btn" href="tel:0666666666">Call</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 Akkharapon Jansong — built with HTML, CSS &amp; a bit of PL/SQL nostalgia
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var el = document.getElementById('terminal');
+  if(!el) return;
+
+  var query = 'SELECT name, position, education, gpa FROM profile WHERE id = 1;';
+  var rows = [
+    ['NAME', 'Akkharapon Jansong'],
+    ['POSITION', 'Junior Programmer'],
+    ['EDUCATION', 'B.Sc. Computer Science, Ubon Ratchathani University'],
+    ['GPA', '2.49']
+  ];
+
+  function buildFinal(){
+    var html = '<div class="line"><span class="prompt">oracle&gt;</span> <span class="query">' + query + '</span></div>';
+    html += '<div class="result-table show">';
+    rows.forEach(function(r){
+      html += '<div class="result-row"><span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span></div>';
+    });
+    html += '</div>';
+    el.innerHTML = html;
+  }
+
+  if(reduce){
+    buildFinal();
+    return;
+  }
+
+  el.innerHTML = '<div class="line"><span class="prompt">oracle&gt;</span> <span class="query" id="typed"></span><span class="terminal-cursor"></span></div><div class="result-table" id="resultTable"></div>';
+  var typedEl = document.getElementById('typed');
+  var i = 0;
+
+  function typeChar(){
+    if(i < query.length){
+      typedEl.textContent += query.charAt(i);
+      i++;
+      setTimeout(typeChar, 22);
+    } else {
+      setTimeout(showResults, 300);
+    }
+  }
+
+  function showResults(){
+    var table = document.getElementById('resultTable');
+    var idx = 0;
+    function addRow(){
+      if(idx < rows.length){
+        var r = rows[idx];
+        var rowEl = document.createElement('div');
+        rowEl.className = 'result-row';
+        rowEl.innerHTML = '<span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span>';
+        table.appendChild(rowEl);
+        table.classList.add('show');
+        idx++;
+        setTimeout(addRow, 160);
+      }
+    }
+    addRow();
+  }
+
+  typeChar();
+})();
+</script>
+
+</body>
+</html>
